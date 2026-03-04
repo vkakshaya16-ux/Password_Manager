@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <h1>Welcome to Your Password Manager</h1>
+
+    <a href="/logout">Logout</a>
+
+    <hr>
+
+    <h2>Add New Password</h2>
+
+    <form method="POST">
+        <input type="text" name="app_name" placeholder="App Name" required><br><br>
+        <input type="text" name="app_username" placeholder="Username" required><br><br>
+        <input type="password" name="app_password" placeholder="Password" required><br><br>
+        <button type="submit">Save Password</button>
+    </form>
+
+    <hr>
+
+    <h2>Saved Passwords</h2>
+
+    {% if passwords %}
+        {% for p in passwords %}
+            <div>
+                <strong>App:</strong> {{ p[0] }} <br>
+                <strong>Username:</strong> {{ p[1] }} <br>
+                <strong>Password:</strong> {{ p[2] }}
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No passwords saved yet.</p>
+    {% endif %}
+
+</body>
+</html>
