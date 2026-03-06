@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 flask
 cryptography
+=======
+flask
+cryptography
+>>>>>>> 5b2823330013de61922bdd2fed580205957a7c2a
 gunicorn
