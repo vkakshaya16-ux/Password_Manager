@@ -39,23 +39,25 @@ def init_db():
     conn = get_connection()
     c = conn.cursor()
 
-    c.execute('''
+    c.execute("""
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             username TEXT,
             password_hash TEXT
         )
-    ''')
-    c.execute('''
+    """)
+
+    c.execute("""
         CREATE TABLE IF NOT EXISTS passwords (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             user_id INTEGER,
             app_name TEXT,
             app_username TEXT,
             app_password TEXT,
             FOREIGN KEY(user_id) REFERENCES users(id)
         )
-    ''')
+    """)
+
     conn.commit()
     conn.close()
 
