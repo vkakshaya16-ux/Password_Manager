@@ -87,7 +87,7 @@ def register():
 
         conn = get_connection()
         c = conn.cursor()
-        c.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
+        c.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)",
                   (username, password))
         conn.commit()
         conn.close()
@@ -107,7 +107,7 @@ def login():
 
         conn = get_connection()
         c = conn.cursor()
-        c.execute("SELECT * FROM users WHERE username=? AND password_hash=?",
+        c.execute("SELECT * FROM users WHERE username=%s AND password_hash=%s",
                   (username, password))
         user = c.fetchone()
         conn.close()
@@ -141,13 +141,13 @@ def dashboard():
 
         c.execute("""
             INSERT INTO passwords (user_id, app_name, app_username, app_password)
-            VALUES (?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s)
         """, (session["user_id"], app_name, app_username, encrypted_password))
 
         conn.commit()
 
     # Fetch saved passwords
-    c.execute("SELECT id, app_name, app_username, app_password FROM passwords WHERE user_id=?",
+    c.execute("SELECT id, app_name, app_username, app_password FROM passwords WHERE user_id=%s",
           (session["user_id"],))
     data = c.fetchall()
     conn.close()
@@ -164,10 +164,10 @@ def delete_password(id):
     if "user_id" not in session:
         return redirect("/login")
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = get_connection()
     c = conn.cursor()
 
-    c.execute("DELETE FROM passwords WHERE id=? AND user_id=?", (id, session["user_id"]))
+    c.execute("DELETE FROM passwords WHERE id=%s AND user_id=%s", (id, session["user_id"]))
 
     conn.commit()
     conn.close()
