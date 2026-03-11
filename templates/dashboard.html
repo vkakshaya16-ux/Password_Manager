@@ -1,46 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
-    <title>Dashboard</title>
-</head>
-<body>
-
-    <h1>Welcome to Your Password Manager</h1>
-
-    <a href="/logout">Logout</a>
-
-    <hr>
-
-    <h2>Add New Password</h2>
-
-    <form method="POST">
-        <input type="text" name="app_name" placeholder="App Name" required><br><br>
-        <input type="text" name="app_username" placeholder="Username" required><br><br>
-        <input type="password" name="app_password" placeholder="Password" required><br><br>
-        <button type="submit">Save Password</button>
-    </form>
-
-    <hr>
-
-    <h2>Saved Passwords</h2>
-
-    {% if passwords %}
-        {% for p in passwords %}
-            <div>
-                <strong>App:</strong> {{ p[0] }} <br>
-                <strong>Username:</strong> {{ p[1] }} <br>
-                <strong>Password:</strong> {{ p[2] }}
-            </div>
-            <hr>
-        {% endfor %}
-    {% else %}
-        <p>No passwords saved yet.</p>
-    {% endif %}
-
-</body>
-</html>
-=======
     <title>Dashboard - Password Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -91,7 +51,7 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            background: #fafafa;
+            background: #f4eeee;
         }
 
         .logout {
@@ -120,22 +80,36 @@
 
     <h3>Saved Passwords</h3>
 
-    {% for app_name, app_username, app_password in passwords %}
-        <div class="password-box">
-            <strong>App:</strong> {{ app_name }} <br>
-            <strong>Username:</strong> {{ app_username }} <br>
-            <strong>Password:</strong> {{ app_password }}
-        </div>
-    {% else %}
-        <p>No passwords saved yet.</p>
-    {% endfor %}
+    {% for id, app_name, app_username, app_password in passwords %}
+    <div class="password-box">
+        <strong>App:</strong> {{ app_name }} <br>
+        <strong>Username:</strong> {{ app_username }} <br>
+        <strong>Password:</strong> 
+        <span id="pwd{{ loop.index }}">{{ app_password }}</span>
+
+        <button onclick="copyPassword('pwd{{ loop.index }}')">
+    Copy
+        </button>
+
+        <a href="/delete/{{ id }}">
+            <button style="background-color:red;">Delete</button>
+        </a>
+    </div>
+{% else %}
+    <p>No passwords saved yet.</p>
+{% endfor %}
 
     <div class="logout">
         <a href="/login">Logout</a>
     </div>
 
 </div>
-
+<script>
+function copyPassword(id) {
+    var password = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(password);
+    alert("Password copied to clipboard!");
+}
+</script>
 </body>
 </html>
->>>>>>> 5b2823330013de61922bdd2fed580205957a7c2a
