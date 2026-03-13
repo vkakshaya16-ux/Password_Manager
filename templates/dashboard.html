@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard - Password Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard - Password Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 20px;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+}
 
-        h2 {
-            text-align: center;
-        }
+h2 {
+    text-align: center;
+}
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
-        button {
-            padding: 8px 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        button:hover {
-            background-color: #0056b3;
-        }
+button:hover {
+    background-color: #0056b3;
+}
 
-        .password-box {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fafafa;
-        }
+.password-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f4eeee;
+}
 
-        .logout {
-            margin-top: 15px;
-            text-align: center;
-        }
+.logout {
+    margin-top: 15px;
+    text-align: center;
+}
 
-        .logout a {
-            color: red;
-            text-decoration: none;
-        }
-    </style>
+.logout a {
+    color: red;
+    text-decoration: none;
+}
+</style>
 </head>
 
 <body>
@@ -73,15 +73,16 @@
 <h2>Password Manager Dashboard</h2>
 
 <form method="POST">
-    <input type="text" name="app_name" placeholder="App Name" required>
-    <input type="text" name="app_username" placeholder="Username" required>
-    <input type="password" name="app_password" placeholder="Password" required>
-    <button type="submit">Save Password</button>
+<input type="text" name="app_name" placeholder="App Name" required>
+<input type="text" name="app_username" placeholder="Username" required>
+<input type="password" name="app_password" placeholder="Password" required>
+<button type="submit">Save Password</button>
 </form>
 
 <h3>Saved Passwords</h3>
 
 {% for id, app_name, app_username, app_password in passwords %}
+
 <div class="password-box">
 
 <strong>App:</strong> {{ app_name }} <br>
@@ -95,8 +96,11 @@
 <a href="/delete/{{id}}">Delete</a>
 
 </div>
+
 {% else %}
+
 <p>No passwords saved yet.</p>
+
 {% endfor %}
 
 <div class="logout">
