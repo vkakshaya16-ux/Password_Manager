@@ -41,7 +41,7 @@ def init_db():
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             username TEXT,
             password_hash TEXT
         )
@@ -49,7 +49,7 @@ def init_db():
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS passwords (
-            id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id INTEGER,
             app_name TEXT,
             app_username TEXT,
@@ -174,5 +174,6 @@ def delete_password(id):
 
     return redirect("/dashboard")
 if __name__ == "__main__":
-    init_db()   # make sure tables are created
-    app.run()
+    init_db()
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
