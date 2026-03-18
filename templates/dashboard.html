@@ -7,16 +7,19 @@
 <style>
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #667eea, #764ba2);
+    background: url("{{ url_for('static', filename='dashboardbackground.jpeg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
     margin: 0;
-    padding: 20px;
-    color: #333;
+    color: #0a0505;
 }
 
 .container {
     max-width: 650px;
     margin: auto;
-    background: #ffffff;
+    background: #a594d8;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
