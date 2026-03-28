@@ -187,7 +187,7 @@ button[type="submit"]:hover {
 <button class="action-btn" onclick="togglePassword('pass{{ p.id }}')">Show</button>
 <button class="action-btn" onclick="copyPassword('pass{{ p.id }}')">Copy</button>
 
-<form action="/delete/{{ p.id }}" method="GET" style="display:inline;">
+<form action="/delete/{{ p.id }}" method="POST" style="display:inline;">
     <button class="delete-btn" type="submit">Delete</button>
 </form>
 
