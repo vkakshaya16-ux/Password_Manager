@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+
+/* BODY */
 body {
     font-family: 'Segoe UI', sans-serif;
 
-    /* Background image with overlay */
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url("{{ url_for('static', filename='dashboardbackground.jpeg') }}");
+    /* FIXED BACKGROUND */
+    background: 
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("https://images.unsplash.com/photo-1555066931-4365d14bab8c");
 
     background-size: cover;
     background-position: center;
@@ -26,30 +29,36 @@ body {
     color: white;
 }
 
-/* Main container (glass style) */
+/* CONTAINER */
 .container {
     width: 90%;
-    max-width: 700px;
-    padding: 25px;
+    max-width: 720px;
+    padding: 30px;
 
-    border-radius: 16px;
+    border-radius: 18px;
 
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
     border: 1px solid rgba(255, 255, 255, 0.2);
 
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
-/* Headings */
-h2, h3 {
+/* HEADINGS */
+h2 {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-/* Inputs */
+h3 {
+    margin-top: 25px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 5px;
+}
+
+/* INPUTS */
 input {
     width: 100%;
     padding: 12px;
@@ -64,33 +73,53 @@ input {
     outline: none;
 }
 
-/* Placeholder */
 input::placeholder {
     color: rgba(255,255,255,0.7);
 }
 
-/* Buttons */
+/* BUTTON BASE */
 button {
-    padding: 10px 14px;
+    padding: 10px 15px;
     margin-top: 8px;
     margin-right: 5px;
-
-    background: rgba(255,255,255,0.3);
-    color: white;
 
     border: none;
     border-radius: 8px;
 
     cursor: pointer;
     transition: 0.3s;
+    font-weight: 500;
 }
 
-/* Hover */
-button:hover {
+/* PRIMARY BUTTON */
+button[type="submit"] {
+    width: 100%;
+    background: #4facfe;
+}
+
+button[type="submit"]:hover {
+    background: #2e8df7;
+}
+
+/* ACTION BUTTONS */
+.action-btn {
+    background: rgba(255,255,255,0.25);
+}
+
+.action-btn:hover {
     background: rgba(255,255,255,0.5);
 }
 
-/* Password card */
+/* DELETE BUTTON */
+.delete-btn {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+.delete-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+/* PASSWORD CARD */
 .password-box {
     margin-top: 20px;
     padding: 15px;
@@ -99,24 +128,20 @@ button:hover {
 
     background: rgba(255,255,255,0.15);
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
 
-/* Labels */
+/* LABELS */
 .password-box strong {
     color: #e0e0e0;
 }
 
-/* Delete button */
-a button {
-    background: rgba(255, 0, 0, 0.4);
+/* PASSWORD FIELD */
+.password-box input {
+    margin-top: 8px;
 }
 
-a button:hover {
-    background: rgba(255, 0, 0, 0.7);
-}
-
-/* Logout */
+/* LOGOUT */
 .logout {
     margin-top: 20px;
     text-align: center;
@@ -139,7 +164,7 @@ a button:hover {
 
 <div class="container">
 
-<h2>Password Manager Dashboard</h2>
+<h2>Password Manager</h2>
 
 <form method="POST">
 <input type="text" name="app_name" placeholder="App Name" required>
@@ -150,21 +175,21 @@ a button:hover {
 
 <h3>Saved Passwords</h3>
 
-{% for item in passwords %}
+{% for p in passwords %}
 
 <div class="password-box">
 
-<strong>App:</strong> {{ item.app_name }} <br>
-<strong>Username:</strong> {{ item.app_username }} <br>
+<strong>App:</strong> {{ p.app_name }} <br>
+<strong>Username:</strong> {{ p.app_username }} <br>
 
-<input type="password" value="{{ item.app_password }}" id="pass{{item.id}}" readonly>
+<input type="password" value="{{ p.app_password }}" id="pass{{ p.id }}" readonly>
 
-<button onclick="togglePassword('pass{{item.id}}')">Show</button>
-<button onclick="copyPassword('pass{{item.id}}')">Copy</button>
+<button class="action-btn" onclick="togglePassword('pass{{ p.id }}')">Show</button>
+<button class="action-btn" onclick="copyPassword('pass{{ p.id }}')">Copy</button>
 
-<a href="/delete/{{item.id}}">
-    <button>Delete</button>
-</a>
+<form action="/delete/{{ p.id }}" method="GET" style="display:inline;">
+    <button class="delete-btn" type="submit">Delete</button>
+</form>
 
 </div>
 
@@ -181,21 +206,20 @@ a button:hover {
 </div>
 
 <script>
+
+/* MODERN COPY (FIXED) */
 function copyPassword(id){
-    var copyText = document.getElementById(id);
-    copyText.select();
-    document.execCommand("copy");
+    var text = document.getElementById(id).value;
+    navigator.clipboard.writeText(text);
     alert("Password copied!");
 }
 
+/* SHOW / HIDE */
 function togglePassword(id){
     var x = document.getElementById(id);
-    if(x.type === "password"){
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
+    x.type = x.type === "password" ? "text" : "password";
 }
+
 </script>
 
 </body>
