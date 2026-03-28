@@ -7,92 +7,131 @@
 <style>
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: url("{{ url_for('static', filename='dashboardbackground.jpeg') }}");
+
+    /* Background image with overlay */
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("{{ url_for('static', filename='dashboardbackground.jpeg') }}");
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
     height: 100vh;
     margin: 0;
-    color: #0a0505;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
 }
 
+/* Main container (glass style) */
 .container {
-    max-width: 650px;
-    margin: auto;
-    background: #0b0226;
+    width: 90%;
+    max-width: 700px;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
-h2 {
+/* Headings */
+h2, h3 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
+/* Inputs */
 input {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    transition: 0.3s;
-}
 
-input:focus {
-    border-color: #667eea;
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+
     outline: none;
 }
 
+/* Placeholder */
+input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Buttons */
 button {
     padding: 10px 14px;
     margin-top: 8px;
     margin-right: 5px;
-    background-color: #667eea;
+
+    background: rgba(255,255,255,0.3);
     color: white;
+
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
+
     cursor: pointer;
     transition: 0.3s;
 }
 
+/* Hover */
 button:hover {
-    background-color: #5a67d8;
+    background: rgba(255,255,255,0.5);
 }
 
+/* Password card */
 .password-box {
     margin-top: 20px;
     padding: 15px;
-    border-radius: 8px;
-    background: #f9f9f9;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.15);
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
+/* Labels */
 .password-box strong {
-    color: #555;
+    color: #e0e0e0;
 }
 
-a {
-    text-decoration: none;
-}
-
+/* Delete button */
 a button {
-    background-color: #e53e3e;
+    background: rgba(255, 0, 0, 0.4);
 }
 
 a button:hover {
-    background-color: #c53030;
+    background: rgba(255, 0, 0, 0.7);
 }
 
+/* Logout */
 .logout {
     margin-top: 20px;
     text-align: center;
 }
 
 .logout a {
-    color: #e53e3e;
+    color: #ff6b6b;
     font-weight: bold;
+    text-decoration: none;
 }
+
+.logout a:hover {
+    text-decoration: underline;
+}
+
 </style>
 </head>
 
@@ -111,19 +150,19 @@ a button:hover {
 
 <h3>Saved Passwords</h3>
 
-{% for id, app_name, app_username, app_password in passwords %}
+{% for item in passwords %}
 
 <div class="password-box">
 
-<strong>App:</strong> {{ app_name }} <br>
-<strong>Username:</strong> {{ app_username }} <br>
+<strong>App:</strong> {{ item.app_name }} <br>
+<strong>Username:</strong> {{ item.app_username }} <br>
 
-<input type="password" value="{{ app_password }}" id="pass{{id}}" readonly>
+<input type="password" value="{{ item.app_password }}" id="pass{{item.id}}" readonly>
 
-<button onclick="togglePassword('pass{{id}}')">Show</button>
-<button onclick="copyPassword('pass{{id}}')">Copy</button>
+<button onclick="togglePassword('pass{{item.id}}')">Show</button>
+<button onclick="copyPassword('pass{{item.id}}')">Copy</button>
 
-<a href="/delete/{{id}}">
+<a href="/delete/{{item.id}}">
     <button>Delete</button>
 </a>
 
